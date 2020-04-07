@@ -4,21 +4,21 @@ services:
   - docker
 
 before_install:
-  - docker build -t tests -f ./client/Dockerfile.dev ./client  
+  - docker build -t tests -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true tests npm run test
+  - docker run tests npm run test -- --coverage
 
-deploy: 
-  provider: elasticbeanstalk
-  region: "us-west-2"
-  edge: true
-  app: "project"
-  env: "Project-env"
-  bucket_name: "elasticbeanstalk-us-west-2-458718470893"
-  bucket_path: "project"
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+after_success:
+ - docker build -t multi-client ./client
+ - docker build -t multi-nginx ./nginx
+ - docker build -t multi-server ./server
+ - docker build -t multi-worker ./worker
+  #Log in to the docker CLI
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+ - docker push multi-client
+ - docker push multi-nginx
+ - docker push multi-server
+ - docker push multi-worker
 
