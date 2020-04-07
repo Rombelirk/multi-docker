@@ -17,8 +17,8 @@ after_success:
   #Log in to the docker CLI
  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
- - docker push "$DOCKER_ID"/"$DOCKERHUB_REPO_NAME":multi-client
- - docker push "$DOCKER_ID"/"$DOCKERHUB_REPO_NAME":multi-nginx
- - docker push "$DOCKER_ID"/"$DOCKERHUB_REPO_NAME":multi-server
- - docker push "$DOCKER_ID"/"$DOCKERHUB_REPO_NAME":multi-worker
+ - docker push romanbeloborodov/rombelrepo:multi-client
+ - docker push romanbeloborodov/rombelrepo:multi-nginx
+ - docker push romanbeloborodov/rombelrepo:multi-server
+ - docker push romanbeloborodov/rombelrepo:multi-worker
 
